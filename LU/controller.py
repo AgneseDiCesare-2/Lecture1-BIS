@@ -90,6 +90,7 @@ class Controller:
         #NB: DOPPIO NOME
 
         if res:
+
             self._view._lvOut.controls.append(ft.Text("Ordine processato con successo", color="green"))
             self._view._lvOut.controls.append(ft.Text(ordine.riepilogo()))
             self._view.update_page()
