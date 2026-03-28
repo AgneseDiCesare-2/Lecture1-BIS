@@ -9,9 +9,10 @@ class View:
         self._page.title = "TdP 2025 - Software Gestionale"
         self._page.horizontal_alignment = "CENTER"
         self._page.theme_mode = ft.ThemeMode.LIGHT
+        #dovrei inizializzare tutte le variabili definite in carica_interfaccia()
         self.update_page()
 
-    def carica_interfaccia(self):
+    def carica_interfaccia(self): #metodo che definisce gli oggetti grafici che vogliamo utilizzare
 
         #Prodotto
         self._txtInNomeP = ft.TextField(label = "Nome prodotto", width=200)
@@ -45,7 +46,7 @@ class View:
                                   self._btnStampaInfo],
                       alignment = ft.MainAxisAlignment.CENTER)
 
-        self._lvOut = ft.ListView(expand = True)
+        self._lvOut = ft.ListView(expand = True) #CREA UNA FINESTRA ESPANDIBILE
         self._page.add(row1, row2, row3, self._lvOut)
 
 

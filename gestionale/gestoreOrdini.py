@@ -11,6 +11,7 @@ from collections import deque, Counter, defaultdict
 from gestionale.core.clienti import ClienteRecord
 from gestionale.core.prodotti import ProdottoRecord
 from gestionale.vendite.ordini import Ordine, RigaOrdine
+from main import ordine
 
 
 class GestoreOrdini:
@@ -40,10 +41,10 @@ class GestoreOrdini:
         #Assicuriamoci che un ordine da processare esista.
         if not self._ordini_da_processare:
             print("Non ci sono ordini in coda.")
-            return False
+            return False, Ordine([],  ClienteRecord("", "", "")) #restituisco anche un ordine vuoto (fittizio)
 
         #Se esiste, gestiamo il primo in coda.
-        ordine = self._ordini_da_processare.popleft() # Loigica FIFO
+        ordine = self._ordini_da_processare.popleft() # Logica FIFO
 
         print(f"Sto processando l'ordine di {ordine.cliente}")
         print(ordine.riepilogo())
@@ -62,15 +63,20 @@ class GestoreOrdini:
 
         print("Ordine correttamente processato.")
 
-        return True
+        return True, ordine #posso recuperare due cose
 
     def processa_tutti_ordini(self):
         """Processa tutti gli ordini attualmente presenti in coda."""
         print("\n" + "="*60)
         print(f"Processando {len(self._ordini_da_processare)} ordini")
+        ordini=[]
+
         while self._ordini_da_processare:
+            _, ordine=self.processa_prossimo_ordine() #quando chiamiamo una variabile con _ per convenzione vuol dire che non ci serve
             self.processa_prossimo_ordine()
+            ordini.append(ordine)
         print("Tutti gli ordini sono stati processati.")
+        return ordini
 
     def get_statistiche_prodotti(self, top_n: int = 5):
         "Questo metodo restituisce info sui prodotti più venduti. "
@@ -89,19 +95,20 @@ class GestoreOrdini:
         return valori
 
     def stampa_riepilogo(self):
-        """Stampa info di massiam"""
-        print("\n" + "="*60)
-        print("Stato attuale del business:")
-        print(f"Ordini correttamente gestiti: {len(self._ordini_processati)}")
-        print(f"Ordini in coda: {len(self._ordini_da_processare)}")
-
-        print("Prodotti più venduti:")
+        """restituisce una stringa con le info di massiam"""
+        sommario=""
+        sommario += "\n" + "="*60
+        sommario +=f"\n Ordini correttamente gestiti: {len(self._ordini_processati)}"
+        sommario += f"\n Ordini in coda: {len(self._ordini_da_processare)}"
+        sommario +=("\n Prodotti più venduti:")
         for prod, quantità in self.get_statistiche_prodotti():
-            print(f"{prod}: {quantità}")
+            sommario += (f"{prod}: {quantità}")
 
-        print(f"Fatturato per categoria:")
+        sommario +=(f"\n Fatturato per categoria:")
         for cat, fatturato in self.get_distribuzione_categorie():
-            print(f"{cat} : {fatturato}")
+            sommario += (f"\n {cat} : {fatturato}")
+        sommario += "\n" + "=" * 60
+        return sommario
 
 def test_modulo():
     sistema = GestoreOrdini()
