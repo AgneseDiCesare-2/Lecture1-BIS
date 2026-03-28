@@ -5,7 +5,7 @@ from LU.controller import Controller
 from LU.view import View
 
 
-def main(page: ft.Page):
+def main(page: ft.Paged):
     v = View(page)
     c = Controller(v)
     v.set_controller(c)

@@ -115,7 +115,7 @@ class Controller:
             self._view.update_page()
 
     def stampa_sommario(self, e):
-        self._view.lvOut.controls.clear()
-        self._view.lvOut.controls.append(ft.Text("Di seguito il sommario dello stato del business", color="orange"))
-        self._view.lvOut.controls.append(ft.Text(self._model.stampa_riepilogo()))
+        self._view._lvOut.controls.clear()
+        self._view._lvOut.controls.append(ft.Text("Di seguito il sommario dello stato del business", color="orange"))
+        self._view._lvOut.controls.append(ft.Text(self._model.stampa_riepilogo()))
         self._view.update_page()
