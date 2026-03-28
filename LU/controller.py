@@ -96,6 +96,7 @@ class Controller:
             self._view.update_page()
 
         else:
+
             self._view._lvOut.controls.append(ft.Text("Non ci sono ordini in coda", color="blue"))
             self._view.update_page()
 
