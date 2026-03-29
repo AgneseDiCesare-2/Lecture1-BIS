@@ -3,10 +3,9 @@ from websockets.extensions import ClientExtensionFactory
 
 from gestionale.core.cliente import ClienteRecord
 from gestionale.core.prodotto import ProdottoRecord
-from dbConnect import DBConnect
+from gestionale.DAO.dbConnect import DBConnect
 
 class DAO:
-
     def getAllProdotti(self):
         #creo una connessione fisica con il database --> può fallire, va messa in un try-except
         cnx=mysql.connector.connect(host="127.0.0.1",user="root",password="root",database="sw_gestionale")
@@ -29,7 +28,7 @@ class DAO:
         cnx=mysql.connector.connect(user="root",password="root",host="127.0.0.1",database="sw_gestionale")
         cursor=cnx.cursor()
         query="""insert into prodotti
-        (nome, prezzo) values (%s, %s)"""
+                (nome, prezzo) values (%s, %s)"""
 
         cursor.execute(query, (prodotto.name, prodotto.price)) #query, tupla
         cnx.commit() #si fa quando scrivo
@@ -59,7 +58,7 @@ class DAO:
         cnx = mysql.connector.connect(user="root", password="root", host="127.0.0.1", database="sw_gestionale")
         cursor = cnx.cursor()
         query = """insert into clienti
-        (nome, mail, categoria) values (%s, %s)"""
+            (nome, mail, categoria) values (%s, %s, %s)"""
 
         cursor.execute(query, (cliente.name, cliente.mail, cliente.categoria)) #(query, tupla)
         cnx.commit()  # si fa quando scrivo
@@ -77,13 +76,13 @@ class DAO:
         cnx = DBConnect.getConnection()
 
         cursor = cnx.cursor(dictionary=True)
-        query = "Select * from clienti where mail = %s"
+        query = "Select * from clienti where mail = %s" #selezioni i clienti con la mail cercata (chiave primaria)
         cursor.execute(query, (cliente.mail,))
-        row = cursor.fetchall()
+        row = cursor.fetchall() #se ho una riga con quella mail, il cliente è già registrato
 
         cursor.close()
         cnx.close()
-        return len(row) > 0
+        return len(row) > 0 #ritorno True se quel cliente esiste già
 
     def hasProdotto(self, prod):
         # cnx = mysql.connector.connect(

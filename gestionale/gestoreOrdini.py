@@ -7,11 +7,13 @@ assicurandomi che sia eseguito solo dopo gli altri.
 3) fornire statistiche sulla distribuzione di ordini per categoria di cliente.
 """
 from collections import deque, Counter, defaultdict
-from DAO.dao import DAO
+from gestionale.DAO.dao import DAO
 import random
 from gestionale.core.cliente import ClienteRecord
 from gestionale.core.prodotto import ProdottoRecord
 from gestionale.vendite.ordini import Ordine, RigaOrdine
+from main_colorato import cliente
+
 
 class GestoreOrdini:
 
@@ -44,10 +46,24 @@ class GestoreOrdini:
         print(f"Ricevuto un nuovo ordine da parte di {ordine.cliente}.")
         print(f"Ordini ancora da evadere: {len(self._ordini_da_processare)}")
 
+
     def crea_ordine (self, nomeP, prezzoP, quantitaP,
                      nomeC, mailC, categoriaC):
-        return Ordine([RigaOrdine(ProdottoRecord(nomeP, prezzoP), quantitaP)],
-                      ClienteRecord(nomeC, mailC, categoriaC))
+        #quando creo un ordine voglio aggiornare il database
+        prod=ProdottoRecord(nomeP, prezzoP)
+        cl = ClienteRecord(nomeC, mailC, categoriaC)
+
+        self._update_DB(prod, cl)
+        return Ordine([RigaOrdine(prod,quantitaP)], cl)
+
+    #metodo che prova ad aggiungere al database
+    def update_DB(self, prod, cliente):
+        #non devo aggiungere doppioni sulla chiave primaria, controllo
+        if not self._dao.hasProdotto(prod):
+            self._dao.addProdotto(prod)
+
+        if not self._dao.hasCliente(cliente):
+            self._dao.addCliente(cliente)
 
     def processa_prossimo_ordine(self):
         """Questo metodo legge il prossimo ordine in coda e lo gestisce"""

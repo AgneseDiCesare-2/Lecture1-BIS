@@ -1,4 +1,6 @@
 import mysql.connector
+#questa classe permette di automatizzare l'apertura della connessione,
+#così non devo scriverla ogni volta.
 
 class DBConnect:
 

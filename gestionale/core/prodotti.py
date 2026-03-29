@@ -4,7 +4,7 @@
 # offrire interfacce per calcolare i prezzi, eventualmente
 # scontati, ...
 from dataclasses import dataclass
-
+from gestionale.core.prodotto import ProdottoRecord
 
 class Prodotto:
 

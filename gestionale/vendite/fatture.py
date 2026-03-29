@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import date
 
-from gestionale.core.clienti import Cliente, ClienteRecord
+from gestionale.core.cliente import ClienteRecord
 from gestionale.core.prodotti import ProdottoRecord
 from gestionale.vendite.ordini import Ordine, RigaOrdine
 
@@ -33,7 +33,7 @@ class Fattura:
         for i, riga in enumerate(self.ordine.righe, 1):
             linee.append(
                 f"{i}. {riga.prodotto.name:<22} "
-                f"Q.tà {riga.quantita:>3} x {riga.prodotto.prezzo_unitario:>8.2f}€ = "
+                f"Q.tà {riga.quantita:>3} x {riga.prodotto.price:>8.2f}€ = "
                 f"{riga.totale_riga():>10.2f}€"
             )
 

@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 
 #Scrivere una classe Cliente che abbia i campi "nome", "email", "categoria" ("Gold", "Silver", "Bronze").
 #vorremmo che questa classe avesse un metodo che chiamiamo "descrizione"
@@ -8,6 +7,8 @@ from dataclasses import dataclass
 #Si modifichi la classe cliente in maniera tale che la proprietà categoria sia "protetta"
 # e accetti solo ("Gold", "Silver", "Bronze")
 
+from dataclasses import dataclass
+from gestionale.core.cliente import ClienteRecord
 categorie_valide = {"Gold", "Silver", "Bronze"}
 
 class Cliente:

@@ -22,6 +22,7 @@ class Controller:
         #controllo che il prezzo sia un numero
         try:
             prezzo = float(self._view._txtInPrezzo.value)
+
         except ValueError:
             self._view._lvOut.controls.append(
                 ft.Text("Attenzione! il prezzo deve essere un numero.",
@@ -29,6 +30,7 @@ class Controller:
             )
             self._view.update_page()
             return
+
         try:
             quantita = int(self._view._txtInQuantita.value)
         except ValueError:
