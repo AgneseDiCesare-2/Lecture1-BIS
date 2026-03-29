@@ -7,7 +7,6 @@ from dataclasses import dataclass
 
 
 class Prodotto:
-    aliquota_iva = 0.22 #variabile di classe -- ovvero è la stessa per tutte le istanze che verranno create.
 
     def __init__(self, name: str, price: float, quantity: int, supplier = None):
         self.name = name
@@ -16,6 +15,7 @@ class Prodotto:
         self.quantity = quantity
         self.supplier = supplier
 
+    aliquota_iva = 0.22  # variabile di classe -- ovvero è la stessa per tutte le istanze che verranno create.
     def valore_netto(self):
         return self._price*self.quantity
 
@@ -87,17 +87,6 @@ class Abbonamento:
 
     def prezzo_finale(self) -> float:
         return self.prezzo_mensile*self.mesi
-
-@dataclass
-class ProdottoRecord:
-    name: str
-    prezzo_unitario: float
-
-    def __hash__(self):
-        return hash((self.name, self.prezzo_unitario))
-
-    def __str__(self):
-        return f"{self.name} -- {self.prezzo_unitario}"
 
 MAX_QUANTITA = 1000
 
