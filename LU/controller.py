@@ -17,8 +17,6 @@ class Controller:
             self._view._lvOut.controls.append(ft.Text("Attenzione, il campo nome prodotto non può essere vuoto", color="red"))
             self._view.update_page()
             return
-
-
         #controllo che il prezzo sia un numero
         try:
             prezzo = float(self._view._txtInPrezzo.value)
@@ -28,6 +26,7 @@ class Controller:
                 ft.Text("Attenzione! il prezzo deve essere un numero.",
                         color = "red")
             )
+
             self._view.update_page()
             return
 
@@ -60,10 +59,18 @@ class Controller:
             self._view.update_page()
             return
 
-        ordine = self._model.crea_ordine(nomePstr, prezzo,
-                                         quantita, nomeC,
-                                         mail, categoria)
-        self._model.add_ordine(ordine)
+        try:
+            ordine = self._model.crea_ordine(nomePstr, prezzo,
+                                             quantita, nomeC,
+                                             mail, categoria)
+            self._model.add_ordine(ordine)
+
+        except Exception as e:
+            self._view._lvOut.controls.append(
+                ft.Text(f"Errore durante il salvataggio dell'ordine: {e}", color="red")
+            )
+            self._view.update_page()
+            return
 
         self._view._txtInNomeP.value = ""
         self._view._txtInPrezzo.value = ""
@@ -81,7 +88,6 @@ class Controller:
         self._view._lvOut.controls.append(
             ft.Text(ordine.riepilogo())
         )
-
         self._view.update_page()
 
 
@@ -92,7 +98,6 @@ class Controller:
         #NB: DOPPIO NOME
 
         if res:
-
             self._view._lvOut.controls.append(ft.Text("Ordine processato con successo", color="green"))
             self._view._lvOut.controls.append(ft.Text(ordine.riepilogo()))
             self._view.update_page()
@@ -109,8 +114,8 @@ class Controller:
             self._view._lvOut.controls.append(ft.Text("Nessun ordine in coda", color="blue"))
             self._view.update_page()
         else:
-            self._view.lvOut.controls.append(ft.Text("\n")) #vado a capo
-            self._view.lvOut.controls.append(ft.Text(f"ho processato correttamente {len(ordini)} ordini"))
+            self._view._lvOut.controls.append(ft.Text("\n")) #vado a capo
+            self._view._lvOut.controls.append(ft.Text(f"ho processato correttamente {len(ordini)} ordini"))
             #stampo il riepilogo
             for o in ordini:
                 self._view._lvOut.controls.append(ft.Text(o.riepilogo()))

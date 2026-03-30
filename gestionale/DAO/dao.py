@@ -5,8 +5,11 @@ from gestionale.core.cliente import ClienteRecord
 from gestionale.core.prodotto import ProdottoRecord
 from gestionale.DAO.dbConnect import DBConnect
 
+#di dafault i metodi del DAO sono static --> posso chiamare i metodi senza chiamare un'istanza del DAO
+
 class DAO:
-    def getAllProdotti(self):
+    @staticmethod
+    def getAllProdotti():
         #creo una connessione fisica con il database --> può fallire, va messa in un try-except
         cnx=mysql.connector.connect(host="127.0.0.1",user="root",password="root",database="sw_gestionale")
 
@@ -24,7 +27,8 @@ class DAO:
         return res
 
     #metodo che scrive nel database
-    def addProdotto(self, prodotto):
+    @staticmethod
+    def addProdotto(prodotto):
         cnx=mysql.connector.connect(user="root",password="root",host="127.0.0.1",database="sw_gestionale")
         cursor=cnx.cursor()
         query="""insert into prodotti
@@ -36,7 +40,8 @@ class DAO:
         cnx.close()
         return
 
-    def getAllClienti(self):
+    @staticmethod
+    def getAllClienti():
         # creo una connessione fisica con il database --> può fallire, va messa in un try-except
         cnx = mysql.connector.connect(host="127.0.0.1", user="root", password="root", database="sw_gestionale")
         cursor = cnx.cursor(dictionary=True)  # scorre il risultato delle query
@@ -54,7 +59,8 @@ class DAO:
         return res
 
     # metodo che scrive nel database
-    def addCliente(self, cliente):
+    @staticmethod
+    def addCliente(cliente):
         cnx = mysql.connector.connect(user="root", password="root", host="127.0.0.1", database="sw_gestionale")
         cursor = cnx.cursor()
         query = """insert into clienti

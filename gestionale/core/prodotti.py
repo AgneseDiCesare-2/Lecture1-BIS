@@ -10,7 +10,6 @@ class Prodotto:
 
     def __init__(self, name: str, price: float, quantity: int, supplier = None):
         self.name = name
-        self._price = None
         self.price = price
         self.quantity = quantity
         self.supplier = supplier

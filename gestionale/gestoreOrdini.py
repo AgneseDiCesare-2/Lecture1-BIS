@@ -6,13 +6,15 @@ assicurandomi che sia eseguito solo dopo gli altri.
 2) avere delle funzionalità per avere statistiche sugli ordini
 3) fornire statistiche sulla distribuzione di ordini per categoria di cliente.
 """
+
+#questo è il modello
 from collections import deque, Counter, defaultdict
 from gestionale.DAO.dao import DAO
 import random
 from gestionale.core.cliente import ClienteRecord
 from gestionale.core.prodotto import ProdottoRecord
 from gestionale.vendite.ordini import Ordine, RigaOrdine
-from main_colorato import cliente
+
 
 
 class GestoreOrdini:
@@ -22,7 +24,7 @@ class GestoreOrdini:
         self._ordini_processati = []
         self._statistiche_prodotti = Counter()
         self._ordini_per_categoria = defaultdict(list)
-        self._dao = DAO()
+        self._dao = DAO() #--> il DAO è static, non ha uno stato.
         self._allP = []
         self._allC = []
         self._fill_data()
@@ -46,15 +48,14 @@ class GestoreOrdini:
         print(f"Ricevuto un nuovo ordine da parte di {ordine.cliente}.")
         print(f"Ordini ancora da evadere: {len(self._ordini_da_processare)}")
 
+    def crea_ordine(self, nomeP, prezzoP, quantitaP,
+                    nomeC, mailC, categoriaC):
+        self._view._lvOut.controls.clear()
+        prod = ProdottoRecord(nomeP, prezzoP)
+        cliente = ClienteRecord(nomeC, mailC, categoriaC)
 
-    def crea_ordine (self, nomeP, prezzoP, quantitaP,
-                     nomeC, mailC, categoriaC):
-        #quando creo un ordine voglio aggiornare il database
-        prod=ProdottoRecord(nomeP, prezzoP)
-        cl = ClienteRecord(nomeC, mailC, categoriaC)
-
-        self._update_DB(prod, cl)
-        return Ordine([RigaOrdine(prod,quantitaP)], cl)
+        self.update_DB(prod, cliente)
+        return Ordine([RigaOrdine(prod, quantitaP)], cliente)
 
     #metodo che prova ad aggiungere al database
     def update_DB(self, prod, cliente):
@@ -105,7 +106,6 @@ class GestoreOrdini:
 
         while self._ordini_da_processare:
             _, ordine=self.processa_prossimo_ordine() #quando chiamiamo una variabile con _ per convenzione vuol dire che non ci serve
-            self.processa_prossimo_ordine()
             ordini.append(ordine)
         print("Tutti gli ordini sono stati processati.")
         return ordini
