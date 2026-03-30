@@ -50,7 +50,6 @@ class GestoreOrdini:
 
     def crea_ordine(self, nomeP, prezzoP, quantitaP,
                     nomeC, mailC, categoriaC):
-        self._view._lvOut.controls.clear()
         prod = ProdottoRecord(nomeP, prezzoP)
         cliente = ClienteRecord(nomeC, mailC, categoriaC)
 
