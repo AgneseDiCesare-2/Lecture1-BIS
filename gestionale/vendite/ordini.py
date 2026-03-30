@@ -10,7 +10,9 @@ class RigaOrdine:
     quantita: int
 
     def totale_riga(self):
-        return self.prodotto.price * self.quantita
+        prezzo = float(str(self.prodotto.price).replace(",", "."))
+        quantita = int(self.quantita)
+        return prezzo * quantita
 
 @dataclass
 class Ordine:
