@@ -66,7 +66,7 @@ class DAO:
         query = """insert into clienti
             (nome, mail, categoria) values (%s, %s, %s)"""
 
-        cursor.execute(query, (cliente.name, cliente.mail, cliente.categoria)) #(query, tupla)
+        cursor.execute(query, (cliente.nome, cliente.mail, cliente.categoria)) #(query, tupla)
         cnx.commit()  # si fa quando scrivo
         cursor.close()
         cnx.close()
